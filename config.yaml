@@ -1,0 +1,18 @@
+defaults:
+  colors:
+    emphasis: "#3F6F82"
+    section_title: "#3F6F82"
+    separator: "#3F6F82"
+    work_title: "#B56F3A"
+    project_title: "#B56F3A"
+    education_title: "#111111"
+
+generations:
+  - name: default
+    template: layouts/resume.md
+    output: resumes_output/resume.pdf
+    font: SimHei
+  - name: english
+    template: layouts/resume_en.md
+    output: resumes_output/resume_en.pdf
+    font: Arial

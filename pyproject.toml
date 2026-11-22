@@ -1,0 +1,10 @@
+[project]
+name = "resumegeneration"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "pyyaml>=6.0.3",
+    "reportlab>=4.0",
+]
