@@ -304,7 +304,13 @@ def scaled_styles(font: str, scale: float, theme: ColorTheme) -> dict[str, Parag
         "contact": style("contact", 8.2, 10, alignment=TA_CENTER, textColor=colors.HexColor("#444444"), spaceAfter=6 * scale),
         "section": style("section", 11.5, 13.5, textColor=colors.HexColor(theme.section_title)),
         "entry_title": style("entry_title", 8.5, 10, textColor=colors.HexColor("#111111")),
-        "entry_meta": style("entry_meta", 7.2, 9, alignment=TA_RIGHT, textColor=colors.HexColor("#555555")),
+        # Dates are short metadata and should stay on one line when the
+        # page-fit scale increases.  The column width is also widened
+        # dynamically in entry_header based on the measured date width.
+        "entry_meta": style(
+            "entry_meta", 7.2, 9, alignment=TA_RIGHT,
+            textColor=colors.HexColor("#555555"), wordWrap=None, splitLongWords=0,
+        ),
         "subheading": style("subheading", 7.5, 8.8, textColor=colors.HexColor("#555555"), spaceBefore=0.6 * scale, spaceAfter=0, keepWithNext=True),
         "body": style("body", 7.2, 8.8, alignment=TA_LEFT, wordWrap="CJK", textColor=colors.HexColor("#222222"), spaceAfter=0.8 * scale),
         "item": style("item", 7.05, 8.55, leftIndent=7 * scale, firstLineIndent=-5 * scale, wordWrap="CJK", textColor=colors.HexColor("#222222"), spaceAfter=0.25 * scale),
@@ -361,9 +367,16 @@ def entry_header(
         if role:
             left_parts.append(format_inline(role, emphasis_color))
         right = entry.value("时间") or entry.value("Time")
+    # Reserve enough horizontal room for the complete date instead of
+    # letting ReportLab break it into two lines at larger font scales.
+    meta_width = width * 0.23
+    if right:
+        measured = pdfmetrics.stringWidth(str(right), styles["entry_meta"].fontName, styles["entry_meta"].fontSize)
+        meta_width = max(meta_width, min(width * 0.36, measured + 4 * scale))
+    meta_width = min(meta_width, width * 0.42)
     table = Table(
         [[Paragraph(" | ".join(left_parts), styles["entry_title"]), Paragraph(format_inline(right, emphasis_color), styles["entry_meta"])]],
-        colWidths=[width * 0.77, width * 0.23],
+        colWidths=[width - meta_width, meta_width],
     )
     table.setStyle(
         TableStyle(
