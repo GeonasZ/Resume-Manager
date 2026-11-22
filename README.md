@@ -1,6 +1,6 @@
-# Shareable Resume Generation
+# rusume manager
 
-一个可以直接作为独立 Git 仓库使用的、去敏感化的简历生成器示例项目。它包含原生 Windows 编辑器、Markdown 数据、中文/英文模板和 PDF 生成流程。
+一个可以直接作为独立 Git 仓库使用的、去敏感化的简历管理与生成器项目。它包含原生 Windows 编辑器、Markdown 数据、多个模板和 PDF 生成流程。项目目录名称按当前仓库约定保留为 `rusume manager`。
 
 `data/` 中的姓名、联系方式、学校、公司、职位、项目和经历均为虚构示例数据，不包含原项目的个人信息。
 
@@ -29,7 +29,7 @@ python main.py
 
 ### 生成全部 generation
 
-这条命令读取 `config.yaml`，按其中定义的全部 generation 生成对应 PDF；当前示例配置会生成两份简历：
+这条命令读取 `config.yaml`，按其中定义的全部 generation 生成对应 PDF。当前示例配置定义了两个独立的 generation，会生成两份简历；生成器不把它们限制为固定的语言组合：
 
 ```powershell
 python generate_resume.py --config config.yaml
@@ -39,9 +39,10 @@ Windows 也可以双击 `build_resume.bat`；Linux/macOS 使用 `bash build_resu
 
 ### 只生成一个模板
 
-如需只测试某一个模板，可以直接指定模板和输出路径：
+如需只测试某一个模板，可以直接指定模板和输出路径。当前示例中的两个模板可以分别运行：
 
 ```powershell
+python generate_resume.py layouts/resume.md -o resumes_output/resume.pdf
 python generate_resume.py layouts/resume_en.md -o resumes_output/resume_en.pdf
 ```
 
