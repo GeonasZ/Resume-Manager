@@ -70,7 +70,7 @@ generations:
     font: Arial
 ```
 
-GUI 会扫描当前系统字体并提供下拉选择。模板 front matter 中的 `expected_pages` 控制目标页数，颜色可以在 `Templates & style` 中编辑。
+GUI 会扫描当前系统字体并提供下拉选择。模板 front matter 中的 `expected_pages` 控制目标页数，颜色可以在 `Templates & style` 中编辑。自动放大字号有上限，当前最多为基础字号的 `1.35` 倍；内容较少时页面可以留白，不会为了填满目标页数而继续放大。如果内容在最小字号下仍超出目标页数，生成器会直接报告错误。
 
 ## 数据结构
 

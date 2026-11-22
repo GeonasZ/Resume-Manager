@@ -36,6 +36,8 @@ ACCENT_COLOR = "#3F6F82"
 STRONG_COLOR = ACCENT_COLOR
 # Accent B is a muted complementary orange reserved for work/project titles.
 TITLE_COLOR = "#B56F3A"
+# Keep automatic page fitting from producing oversized typography.
+MAX_FONT_SCALE = 1.35
 
 
 @dataclass(frozen=True)
@@ -518,7 +520,7 @@ def choose_scale(groups: list[tuple[str, list[Entry]]], font: str, target_pages:
     best_scale = low
     best_pages = low_pages
     high = 1.0
-    while high <= 3.0:
+    while high <= MAX_FONT_SCALE:
         pages = render_document(BytesIO(), groups, font, high, theme)
         if pages > target_pages:
             break
@@ -536,7 +538,7 @@ def choose_scale(groups: list[tuple[str, list[Entry]]], font: str, target_pages:
             low = middle
         else:
             high = middle
-    return best_scale * 0.995, best_pages
+    return min(best_scale * 0.995, MAX_FONT_SCALE), best_pages
 
 
 COLOR_KEYS = {
