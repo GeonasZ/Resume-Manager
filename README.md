@@ -6,10 +6,20 @@
 
 ## Windows 图形应用
 
-双击 `launch_resume_editor.bat`，或运行：
+双击 `launch_resume_editor.bat` 即可启动。脚本会优先使用项目虚拟环境；如果首次运行尚未创建虚拟环境，会自动使用 `uv run` 按 `pyproject.toml` 安装依赖并启动。
+
+也可以手动运行：
 
 ```powershell
-python main.py
+uv run main.py
+```
+
+如果不使用 `uv`，请先在项目虚拟环境中安装依赖：
+
+```powershell
+python -m venv .venv
+.venv\Scripts\python.exe -m pip install -e .
+.venv\Scripts\python.exe main.py
 ```
 
 窗口提供：
